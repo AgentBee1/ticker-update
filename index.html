@@ -362,6 +362,13 @@
     <input type="url" id="url" placeholder="https://app.agentbee.net/...">
   </div>
 
+  <!-- Publish date -->
+  <div class="field">
+    <label for="publish-date">Publish date</label>
+    <input type="date" id="publish-date">
+  </div>
+  <p class="hint">Leave as today to publish immediately. Choose a future date to schedule, or a past date to backdate.</p>
+
   <hr class="divider">
 
   <!-- Target -->
@@ -420,6 +427,7 @@
 
   // ── Load institutions ─────────────────────────────────────────
   async function loadInstitutions() {
+    initDatePicker();
     const { data } = await db
       .from('institutions')
       .select('id, name, status')
@@ -501,9 +509,26 @@
   }
 
   // ── Submit ────────────────────────────────────────────────────
+  // ── Set today as default date on load ────────────────────────
+  function initDatePicker() {
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("publish-date").value = today;
+  }
+
+  // ── Submit ────────────────────────────────────────────────────
   async function submitPost() {
-    const desc = document.getElementById('desc').value.trim();
-    const url  = document.getElementById('url').value.trim();
+    const desc      = document.getElementById('desc').value.trim();
+    const url       = document.getElementById('url').value.trim();
+    const dateVal   = document.getElementById('publish-date').value;
+
+    // Build publish_at: use chosen date at noon local time to avoid timezone edge cases
+    let publishAt;
+    if (dateVal) {
+      const d = new Date(dateVal + 'T12:00:00');
+      publishAt = d.toISOString();
+    } else {
+      publishAt = new Date().toISOString();
+    }
 
     if (!desc) { showError('Please enter a description.'); return; }
     if (!url)  { showError('Please enter a link URL.'); return; }
@@ -548,6 +573,7 @@
       action_url:   url,
       severity:     null,
       icon,
+      publish_at:   publishAt,
     }));
 
     const { error } = await db.from('notification_events').insert(rows);
@@ -556,9 +582,14 @@
       showError('Database error: ' + error.message);
     } else {
       const count = targets.length;
-      showSuccess(`Update posted to ${count} institution${count !== 1 ? 's' : ''}.`);
+      const scheduled = new Date(publishAt) > new Date();
+      const msg = scheduled
+        ? `Scheduled for ${new Date(publishAt).toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'})} — ${count} institution${count !== 1 ? 's' : ''}.`
+        : `Update posted to ${count} institution${count !== 1 ? 's' : ''}.`;
+      showSuccess(msg);
       document.getElementById('desc').value = '';
       document.getElementById('url').value  = '';
+      initDatePicker();
       updateCharCount();
       selectedInsts = [];
       renderChips();
