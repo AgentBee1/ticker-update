@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentBee Admin — Post Information Update</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f7f6f3;
+      --bg-card:      #ffffff;
+      --text:         #1a1a18;
+      --text-mid:     #5f5e5a;
+      --text-light:   #888780;
+      --border:       rgba(0,0,0,0.12);
+      --border-focus: #185fa5;
+      --radius:       10px;
+      --accent:       #185fa5;
+      --accent-hover: #114a82;
+      --success-bg:   #E1F5EE;
+      --success-text: #085041;
+      --error-bg:     #FCEBEB;
+      --error-text:   #A32D2D;
+    }
+
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: #EEEDFE;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #3C3489;
+      font-size: 18px;
+    }
+    .logo-text { font-size: 15px; font-weight: 600; color: var(--text); }
+    .logo-sub  { font-size: 12px; color: var(--text-light); }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-mid);
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 24px 0;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg-card);
+      outline: none;
+      transition: border-color 0.15s;
+      margin-bottom: 16px;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--border-focus);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .field { margin-bottom: 4px; }
+
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .radio-option {
+      flex: 1;
+      min-width: 140px;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .radio-option:hover { border-color: var(--border-focus); }
+    .radio-option.selected {
+      border-color: var(--border-focus);
+      background: #f0f5fc;
+    }
+    .radio-option input[type=radio] { display: none; }
+    .radio-icon {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .radio-icon.kb   { background: #EEEDFE; color: #3C3489; }
+    .radio-icon.cop  { background: #E6F1FB; color: #0C447C; }
+    .radio-label { font-size: 13px; font-weight: 500; }
+    .radio-sub   { font-size: 11px; color: var(--text-light); }
+
+    .target-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .target-btn {
+      flex: 1;
+      padding: 8px;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .target-btn.active {
+      border-color: var(--border-focus);
+      background: #f0f5fc;
+      color: var(--accent);
+    }
+
+    /* Institution search */
+    .search-wrap { position: relative; margin-bottom: 16px; }
+    .search-wrap i {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 15px;
+      pointer-events: none;
+    }
+    .search-wrap input { padding-left: 36px; margin-bottom: 0; }
+    .search-results {
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      margin-top: 4px;
+      max-height: 180px;
+      overflow-y: auto;
+      display: none;
+    }
+    .search-results.open { display: block; }
+    .search-result-item {
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.1s;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--bg); }
+    .search-result-item.selected { background: #f0f5fc; font-weight: 500; }
+
+    .selected-institutions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+      min-height: 0;
+    }
+    .inst-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f5fc;
+      border: 0.5px solid #c5d8f0;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 12px;
+      color: var(--accent);
+    }
+    .inst-chip button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 0;
+      font-size: 13px;
+      line-height: 1;
+      margin-bottom: 0;
+      width: auto;
+    }
+    .inst-chip button:hover { color: var(--error-text); }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .alert {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .alert.show { display: flex; }
+    .alert.success { background: var(--success-bg); color: var(--success-text); }
+    .alert.error   { background: var(--error-bg);   color: var(--error-text);   }
+
+    /* Auth screen */
+    #auth-screen { }
+    #main-screen { display: none; }
+
+    .hint { font-size: 12px; color: var(--text-light); margin-top: -12px; margin-bottom: 16px; }
+
+    .char-count { font-size: 11px; color: var(--text-light); text-align: right; margin-top: -14px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth screen ── -->
+<div class="card" id="auth-screen">
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-shield-lock"></i></div>
+    <div>
+      <div class="logo-text">AgentBee Admin</div>
+      <div class="logo-sub">Information updates</div>
+    </div>
+  </div>
+
+  <h1>Sign in</h1>
+  <p class="subtitle">Enter your admin passphrase to continue.</p>
+
+  <div class="alert error" id="auth-error">
+    <i class="ti ti-alert-circle"></i>
+    Incorrect passphrase. Please try again.
+  </div>
+
+  <div class="field">
+    <label for="passphrase">Passphrase</label>
+    <input type="password" id="passphrase" placeholder="Enter passphrase"
+      onkeydown="if(event.key==='Enter')checkAuth()">
+  </div>
+
+  <button class="btn" onclick="checkAuth()">
+    <i class="ti ti-lock-open"></i> Continue
+  </button>
+</div>
+
+<!-- ── Main screen ── -->
+<div class="card" id="main-screen">
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-bulb"></i></div>
+    <div>
+      <div class="logo-text">AgentBee Admin</div>
+      <div class="logo-sub">Post an information update</div>
+    </div>
+  </div>
+
+  <div class="alert success" id="success-msg">
+    <i class="ti ti-circle-check"></i>
+    <span id="success-text">Update posted successfully.</span>
+  </div>
+  <div class="alert error" id="error-msg">
+    <i class="ti ti-alert-circle"></i>
+    <span id="error-text">Something went wrong. Please try again.</span>
+  </div>
+
+  <!-- Category -->
+  <div class="field">
+    <label>Category</label>
+  </div>
+  <div class="radio-group">
+    <label class="radio-option selected" id="opt-kb" onclick="selectCategory('kb', this)">
+      <input type="radio" name="category" value="kb" checked>
+      <div class="radio-icon kb"><i class="ti ti-bulb"></i></div>
+      <div>
+        <div class="radio-label">Knowledge Base</div>
+        <div class="radio-sub">Articles and guidance</div>
+      </div>
+    </label>
+    <label class="radio-option" id="opt-cop" onclick="selectCategory('cop', this)">
+      <input type="radio" name="category" value="cop">
+      <div class="radio-icon cop"><i class="ti ti-users"></i></div>
+      <div>
+        <div class="radio-label">Community of Practice</div>
+        <div class="radio-sub">Discussions and threads</div>
+      </div>
+    </label>
+  </div>
+
+  <!-- Description -->
+  <div class="field">
+    <label for="desc">Description <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown in the feed)</span></label>
+    <textarea id="desc" placeholder="e.g. New article posted — Managing agent risk in Southeast Asia 2026"
+      oninput="updateCharCount()" maxlength="200"></textarea>
+    <div class="char-count"><span id="char-count">0</span> / 200</div>
+  </div>
+
+  <!-- URL -->
+  <div class="field">
+    <label for="url">Link URL</label>
+    <input type="url" id="url" placeholder="https://app.agentbee.net/...">
+  </div>
+
+  <hr class="divider">
+
+  <!-- Target -->
+  <div class="field">
+    <label>Send to</label>
+  </div>
+  <div class="target-group">
+    <button class="target-btn active" id="btn-all" onclick="setTarget('all', this)">
+      All client institutions
+    </button>
+    <button class="target-btn" id="btn-select" onclick="setTarget('select', this)">
+      Select institutions
+    </button>
+  </div>
+
+  <!-- Institution search (shown when target = select) -->
+  <div id="institution-picker" style="display:none">
+    <div class="search-wrap">
+      <i class="ti ti-search"></i>
+      <input type="text" id="inst-search" placeholder="Search institutions…"
+        oninput="searchInstitutions(this.value)"
+        onfocus="showResults()"
+        onblur="setTimeout(hideResults, 200)">
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <div class="selected-institutions" id="selected-institutions"></div>
+  </div>
+
+  <button class="btn" id="submit-btn" onclick="submitPost()">
+    <i class="ti ti-send"></i> Post update
+  </button>
+</div>
+
+<script>
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  let selectedCategory = 'kb';
+  let targetMode       = 'all';
+  let selectedInsts    = []; // [{id, name}]
+  let allInstitutions  = [];
+
+  // ── Auth ──────────────────────────────────────────────────────
+  function checkAuth() {
+    const val = document.getElementById('passphrase').value;
+    if (val === ADMIN_PASS) {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('main-screen').style.display = 'block';
+      loadInstitutions();
+    } else {
+      document.getElementById('auth-error').classList.add('show');
+      document.getElementById('passphrase').value = '';
+      document.getElementById('passphrase').focus();
+    }
+  }
+
+  // ── Load institutions ─────────────────────────────────────────
+  async function loadInstitutions() {
+    const { data } = await db
+      .from('institutions')
+      .select('id, name, status')
+      .eq('status', 'client')
+      .order('name');
+    allInstitutions = data || [];
+  }
+
+  // ── Category ──────────────────────────────────────────────────
+  function selectCategory(cat, el) {
+    selectedCategory = cat;
+    document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  // ── Target ────────────────────────────────────────────────────
+  function setTarget(mode, btn) {
+    targetMode = mode;
+    document.querySelectorAll('.target-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('institution-picker').style.display =
+      mode === 'select' ? 'block' : 'none';
+  }
+
+  // ── Institution search ────────────────────────────────────────
+  function searchInstitutions(q) {
+    const results = document.getElementById('search-results');
+    const filtered = allInstitutions.filter(i =>
+      i.name.toLowerCase().includes(q.toLowerCase()) &&
+      !selectedInsts.find(s => s.id === i.id)
+    );
+    if (!filtered.length || !q) { results.classList.remove('open'); return; }
+    results.innerHTML = filtered.slice(0, 8).map(i =>
+      `<div class="search-result-item" onmousedown="addInstitution('${i.id}','${i.name.replace(/'/g,"\\'")}')">
+        ${i.name}
+      </div>`
+    ).join('');
+    results.classList.add('open');
+  }
+
+  function showResults() {
+    const q = document.getElementById('inst-search').value;
+    if (q) searchInstitutions(q);
+  }
+
+  function hideResults() {
+    document.getElementById('search-results').classList.remove('open');
+  }
+
+  function addInstitution(id, name) {
+    if (selectedInsts.find(i => i.id === id)) return;
+    selectedInsts.push({ id, name });
+    renderChips();
+    document.getElementById('inst-search').value = '';
+    document.getElementById('search-results').classList.remove('open');
+  }
+
+  function removeInstitution(id) {
+    selectedInsts = selectedInsts.filter(i => i.id !== id);
+    renderChips();
+  }
+
+  function renderChips() {
+    const container = document.getElementById('selected-institutions');
+    container.innerHTML = selectedInsts.map(i =>
+      `<div class="inst-chip">
+        ${i.name}
+        <button onclick="removeInstitution('${i.id}')" title="Remove">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>`
+    ).join('');
+  }
+
+  // ── Char count ────────────────────────────────────────────────
+  function updateCharCount() {
+    const len = document.getElementById('desc').value.length;
+    document.getElementById('char-count').textContent = len;
+  }
+
+  // ── Submit ────────────────────────────────────────────────────
+  async function submitPost() {
+    const desc = document.getElementById('desc').value.trim();
+    const url  = document.getElementById('url').value.trim();
+
+    if (!desc) { showError('Please enter a description.'); return; }
+    if (!url)  { showError('Please enter a link URL.'); return; }
+    if (targetMode === 'select' && !selectedInsts.length) {
+      showError('Please select at least one institution.'); return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Posting…';
+
+    hideAlerts();
+
+    const icon        = selectedCategory === 'kb' ? 'ti-bulb' : 'ti-users';
+    const actionLabel = selectedCategory === 'kb' ? 'Read article' : 'Join discussion';
+    const prefix      = selectedCategory === 'kb'
+      ? 'New resource posted in the Knowledge Base'
+      : 'New community of practice discussion';
+    const title       = prefix + ' — ' + desc;
+
+    let targets = [];
+    if (targetMode === 'all') {
+      const { data } = await db
+        .from('institutions')
+        .select('id')
+        .eq('status', 'client');
+      targets = (data || []).map(i => i.id);
+    } else {
+      targets = selectedInsts.map(i => i.id);
+    }
+
+    if (!targets.length) {
+      showError('No client institutions found to notify.');
+      resetBtn(); return;
+    }
+
+    const rows = targets.map(institution_id => ({
+      institution_id,
+      event_type:   'information',
+      title,
+      action_label: actionLabel,
+      action_url:   url,
+      severity:     null,
+      icon,
+    }));
+
+    const { error } = await db.from('notification_events').insert(rows);
+
+    if (error) {
+      showError('Database error: ' + error.message);
+    } else {
+      const count = targets.length;
+      showSuccess(`Update posted to ${count} institution${count !== 1 ? 's' : ''}.`);
+      document.getElementById('desc').value = '';
+      document.getElementById('url').value  = '';
+      updateCharCount();
+      selectedInsts = [];
+      renderChips();
+    }
+
+    resetBtn();
+  }
+
+  function resetBtn() {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-send"></i> Post update';
+  }
+
+  function showSuccess(msg) {
+    document.getElementById('success-text').textContent = msg;
+    document.getElementById('success-msg').classList.add('show');
+  }
+
+  function showError(msg) {
+    document.getElementById('error-text').textContent = msg;
+    document.getElementById('error-msg').classList.add('show');
+  }
+
+  function hideAlerts() {
+    document.getElementById('success-msg').classList.remove('show');
+    document.getElementById('error-msg').classList.remove('show');
+  }
+</script>
+</body>
+</html>
