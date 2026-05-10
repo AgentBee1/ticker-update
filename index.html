@@ -516,22 +516,34 @@
   let picker = null;
 
   function initDatePicker() {
-    if (picker) { picker.destroy(); picker = null; }
-    picker = new Pikaday({
-      field:        document.getElementById('publish-date'),
-      format:       'DD/MM/YYYY',
-      toString(date) {
-        const dd   = String(date.getDate()).padStart(2,'0');
-        const mm   = String(date.getMonth()+1).padStart(2,'0');
-        const yyyy = date.getFullYear();
-        return `${dd}/${mm}/${yyyy}`;
-      },
-      parse(dateString) {
-        const parts = dateString.split('/');
-        return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-      },
+    // Set today's date as text immediately — picker attaches on first click
+    const now  = new Date();
+    const dd   = String(now.getDate()).padStart(2,'0');
+    const mm   = String(now.getMonth()+1).padStart(2,'0');
+    const yyyy = now.getFullYear();
+    const field = document.getElementById('publish-date');
+    field.value = `${dd}/${mm}/${yyyy}`;
+
+    // Attach Pikaday lazily on first focus
+    field.addEventListener('focus', function attachPicker() {
+      field.removeEventListener('focus', attachPicker);
+      picker = new Pikaday({
+        field: field,
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        toString(date) {
+          const d  = String(date.getDate()).padStart(2,'0');
+          const m  = String(date.getMonth()+1).padStart(2,'0');
+          const y  = date.getFullYear();
+          return `${d}/${m}/${y}`;
+        },
+        parse(str) {
+          const p = str.split('/');
+          return new Date(`${p[2]}-${p[1]}-${p[0]}`);
+        },
+      });
+      picker.show();
     });
-    picker.setDate(new Date());
   }
 
   // ── Submit ────────────────────────────────────────────────────
