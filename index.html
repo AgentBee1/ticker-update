@@ -46,22 +46,14 @@
       border-radius: var(--radius);
       padding: 32px;
       width: 100%;
-      max-width: 560px;
+      max-width: 600px;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
+    .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
     .logo-icon {
-      width: 36px; height: 36px;
-      background: #EEEDFE;
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      color: #3C3489;
-      font-size: 18px;
+      width: 36px; height: 36px; background: #EEEDFE;
+      border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; color: #3C3489; font-size: 18px;
     }
     .logo-text { font-size: 15px; font-weight: 600; color: var(--text); }
     .logo-sub  { font-size: 12px; color: var(--text-light); }
@@ -71,28 +63,29 @@
 
     .divider { border: none; border-top: 0.5px solid var(--border); margin: 24px 0; }
 
+    /* Tabs */
+    .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 0.5px solid var(--border); }
+    .tab {
+      padding: 8px 16px; font-size: 13px; font-weight: 500;
+      color: var(--text-mid); cursor: pointer; background: none;
+      border: none; border-bottom: 2px solid transparent;
+      margin-bottom: -0.5px; transition: all 0.15s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
     label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-mid);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      display: block; font-size: 12px; font-weight: 500;
+      color: var(--text-mid); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.04em;
     }
 
     input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 0.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--text);
-      background: var(--bg-card);
-      outline: none;
-      transition: border-color 0.15s;
-      margin-bottom: 16px;
+      width: 100%; padding: 10px 12px;
+      border: 0.5px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-family: inherit; color: var(--text);
+      background: var(--bg-card); outline: none;
+      transition: border-color 0.15s; margin-bottom: 16px;
     }
     input:focus, select:focus, textarea:focus { border-color: var(--border-focus); }
     textarea { resize: vertical; min-height: 80px; }
@@ -101,11 +94,9 @@
 
     .radio-group { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
     .radio-option {
-      flex: 1; min-width: 140px;
-      border: 0.5px solid var(--border);
-      border-radius: 8px; padding: 10px 14px;
-      cursor: pointer; transition: all 0.15s;
-      display: flex; align-items: center; gap: 10px;
+      flex: 1; min-width: 140px; border: 0.5px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; cursor: pointer;
+      transition: all 0.15s; display: flex; align-items: center; gap: 10px;
     }
     .radio-option:hover { border-color: var(--border-focus); }
     .radio-option.selected { border-color: var(--border-focus); background: #f0f5fc; }
@@ -122,10 +113,9 @@
 
     .target-group { display: flex; gap: 10px; margin-bottom: 16px; }
     .target-btn {
-      flex: 1; padding: 8px;
-      border: 0.5px solid var(--border); border-radius: 8px;
-      background: transparent; font-size: 13px; font-weight: 500;
-      color: var(--text-mid); cursor: pointer; transition: all 0.15s;
+      flex: 1; padding: 8px; border: 0.5px solid var(--border);
+      border-radius: 8px; background: transparent; font-size: 13px;
+      font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.15s;
     }
     .target-btn.active { border-color: var(--border-focus); background: #f0f5fc; color: var(--accent); }
 
@@ -152,8 +142,7 @@
     .inst-chip {
       display: flex; align-items: center; gap: 6px;
       background: #f0f5fc; border: 0.5px solid #c5d8f0;
-      border-radius: 20px; padding: 3px 10px;
-      font-size: 12px; color: var(--accent);
+      border-radius: 20px; padding: 3px 10px; font-size: 12px; color: var(--accent);
     }
     .inst-chip button {
       background: none; border: none; cursor: pointer;
@@ -171,6 +160,16 @@
     }
     .btn:hover { background: var(--accent-hover); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-sm {
+      padding: 6px 12px; font-size: 12px; font-weight: 500;
+      border: none; border-radius: 6px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s;
+    }
+    .btn-danger { background: var(--error-bg); color: var(--error-text); }
+    .btn-danger:hover { background: #f9d0d0; }
+    .btn-edit { background: var(--bg); color: var(--text-mid); border: 0.5px solid var(--border); }
+    .btn-edit:hover { background: #f0f5fc; color: var(--accent); }
 
     .alert {
       padding: 12px 14px; border-radius: 8px; font-size: 13px;
@@ -200,6 +199,53 @@
     }
     .date-field input:focus { border-color: var(--border-focus); }
     .date-field p { font-size: 12px; color: var(--text-light); }
+
+    /* Manage tab */
+    .post-list { display: flex; flex-direction: column; gap: 10px; }
+    .post-item {
+      border: 0.5px solid var(--border); border-radius: 8px;
+      padding: 14px; display: flex; align-items: flex-start;
+      gap: 12px; transition: background 0.12s;
+    }
+    .post-item:hover { background: var(--bg); }
+    .post-icon {
+      width: 30px; height: 30px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+      background: #EEEDFE; color: #3C3489;
+    }
+    .post-icon.cop { background: #E6F1FB; color: #0C447C; }
+    .post-body { flex: 1; min-width: 0; }
+    .post-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+    .post-meta { font-size: 12px; color: var(--text-light); margin-bottom: 8px; }
+    .post-actions { display: flex; gap: 6px; }
+    .post-empty { text-align: center; padding: 32px; font-size: 13px; color: var(--text-light); }
+
+    /* Edit modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      display: none; align-items: center; justify-content: center;
+      z-index: 100; padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 24px; width: 100%; max-width: 480px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+    .modal h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+    .modal-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .btn-cancel {
+      flex: 1; padding: 10px; background: var(--bg); color: var(--text-mid);
+      border: 0.5px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+    }
+    .btn-save {
+      flex: 2; padding: 10px; background: var(--accent); color: #fff;
+      border: none; border-radius: 8px; font-size: 14px;
+      font-weight: 500; cursor: pointer;
+    }
+    .btn-save:hover { background: var(--accent-hover); }
   </style>
 </head>
 <body>
@@ -235,90 +281,132 @@
     <div class="logo-icon"><i class="ti ti-bulb"></i></div>
     <div>
       <div class="logo-text">AgentBee Admin</div>
-      <div class="logo-sub">Post an information update</div>
+      <div class="logo-sub">Information updates</div>
     </div>
   </div>
 
-  <div class="alert success" id="success-msg">
-    <i class="ti ti-circle-check"></i>
-    <span id="success-text">Update posted successfully.</span>
-  </div>
-  <div class="alert error" id="error-msg">
-    <i class="ti ti-alert-circle"></i>
-    <span id="error-text">Something went wrong. Please try again.</span>
-  </div>
-
-  <!-- Category -->
-  <div class="field"><label>Category</label></div>
-  <div class="radio-group">
-    <label class="radio-option selected" id="opt-kb" onclick="selectCategory('kb', this)">
-      <input type="radio" name="category" value="kb" checked>
-      <div class="radio-icon kb"><i class="ti ti-bulb"></i></div>
-      <div>
-        <div class="radio-label">Knowledge Base</div>
-        <div class="radio-sub">Articles and guidance</div>
-      </div>
-    </label>
-    <label class="radio-option" id="opt-cop" onclick="selectCategory('cop', this)">
-      <input type="radio" name="category" value="cop">
-      <div class="radio-icon cop"><i class="ti ti-users"></i></div>
-      <div>
-        <div class="radio-label">Community of Practice</div>
-        <div class="radio-sub">Discussions and threads</div>
-      </div>
-    </label>
-  </div>
-
-  <!-- Description -->
-  <div class="field">
-    <label for="desc">Description <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown in the feed)</span></label>
-    <textarea id="desc" placeholder="e.g. New article posted — Managing agent risk in Southeast Asia 2026"
-      oninput="updateCharCount()" maxlength="200"></textarea>
-    <div class="char-count"><span id="char-count">0</span> / 200</div>
-  </div>
-
-  <!-- URL -->
-  <div class="field">
-    <label for="url">Link URL</label>
-    <input type="url" id="url" placeholder="https://app.agentbee.net/...">
-  </div>
-
-  <!-- Publish date — isolated CSS class, no global input rule interference -->
-  <div class="date-field">
-    <label for="publish-date">Publish date</label>
-    <input type="text" id="publish-date" placeholder="DD/MM/YYYY">
-    <p>Leave as today to publish immediately. Choose a future date to schedule, or a past date to backdate.</p>
-  </div>
-
-  <hr class="divider">
-
-  <!-- Target -->
-  <div class="field"><label>Send to</label></div>
-  <div class="target-group">
-    <button class="target-btn active" id="btn-all" onclick="setTarget('all', this)">
-      All client institutions
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('post', this)">
+      <i class="ti ti-send" style="font-size:13px;margin-right:4px"></i>Post update
     </button>
-    <button class="target-btn" id="btn-select" onclick="setTarget('select', this)">
-      Select institutions
+    <button class="tab" onclick="switchTab('manage', this)">
+      <i class="ti ti-edit" style="font-size:13px;margin-right:4px"></i>Manage posts
     </button>
   </div>
 
-  <!-- Institution search -->
-  <div id="institution-picker" style="display:none">
-    <div class="search-wrap">
-      <i class="ti ti-search"></i>
-      <input type="text" id="inst-search" placeholder="Search institutions…"
-        oninput="searchInstitutions(this.value)"
-        onfocus="showResults()"
-        onblur="setTimeout(hideResults, 200)">
+  <!-- POST TAB -->
+  <div id="tab-post">
+    <div class="alert success" id="success-msg">
+      <i class="ti ti-circle-check"></i>
+      <span id="success-text">Update posted successfully.</span>
     </div>
-    <div class="search-results" id="search-results"></div>
-    <div class="selected-institutions" id="selected-institutions"></div>
+    <div class="alert error" id="error-msg">
+      <i class="ti ti-alert-circle"></i>
+      <span id="error-text">Something went wrong. Please try again.</span>
+    </div>
+
+    <div class="field"><label>Category</label></div>
+    <div class="radio-group">
+      <label class="radio-option selected" id="opt-kb" onclick="selectCategory('kb', this)">
+        <input type="radio" name="category" value="kb" checked>
+        <div class="radio-icon kb"><i class="ti ti-bulb"></i></div>
+        <div>
+          <div class="radio-label">Knowledge Base</div>
+          <div class="radio-sub">Articles and guidance</div>
+        </div>
+      </label>
+      <label class="radio-option" id="opt-cop" onclick="selectCategory('cop', this)">
+        <input type="radio" name="category" value="cop">
+        <div class="radio-icon cop"><i class="ti ti-users"></i></div>
+        <div>
+          <div class="radio-label">Community of Practice</div>
+          <div class="radio-sub">Discussions and threads</div>
+        </div>
+      </label>
+    </div>
+
+    <div class="field">
+      <label for="desc">Description <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown in the feed)</span></label>
+      <textarea id="desc" placeholder="e.g. New article posted — Managing agent risk in Southeast Asia 2026"
+        oninput="updateCharCount()" maxlength="200"></textarea>
+      <div class="char-count"><span id="char-count">0</span> / 200</div>
+    </div>
+
+    <div class="field">
+      <label for="url">Link URL</label>
+      <input type="url" id="url" placeholder="https://app.agentbee.net/...">
+    </div>
+
+    <div class="date-field">
+      <label for="publish-date">Publish date</label>
+      <input type="text" id="publish-date" placeholder="DD/MM/YYYY">
+      <p>Leave as today to publish immediately. Choose a future date to schedule, or a past date to backdate.</p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="field"><label>Send to</label></div>
+    <div class="target-group">
+      <button class="target-btn active" id="btn-all" onclick="setTarget('all', this)">
+        All client institutions
+      </button>
+      <button class="target-btn" id="btn-select" onclick="setTarget('select', this)">
+        Select institutions
+      </button>
+    </div>
+
+    <div id="institution-picker" style="display:none">
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" id="inst-search" placeholder="Search institutions…"
+          oninput="searchInstitutions(this.value)"
+          onfocus="showResults()"
+          onblur="setTimeout(hideResults, 200)">
+      </div>
+      <div class="search-results" id="search-results"></div>
+      <div class="selected-institutions" id="selected-institutions"></div>
+    </div>
+
+    <button class="btn" id="submit-btn" onclick="submitPost()">
+      <i class="ti ti-send"></i> Post update
+    </button>
   </div>
 
-  <button class="btn" id="submit-btn" onclick="submitPost()">
-    <i class="ti ti-send"></i> Post update
-  </button>
+  <!-- MANAGE TAB -->
+  <div id="tab-manage" style="display:none">
+    <div class="alert success" id="manage-success">
+      <i class="ti ti-circle-check"></i>
+      <span id="manage-success-text">Done.</span>
+    </div>
+    <div class="alert error" id="manage-error">
+      <i class="ti ti-alert-circle"></i>
+      <span id="manage-error-text">Something went wrong.</span>
+    </div>
+    <div class="post-list" id="post-list">
+      <div class="post-empty">Loading recent posts…</div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit modal -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <h2>Edit post</h2>
+    <input type="hidden" id="edit-post-id">
+    <div class="field">
+      <label for="edit-desc">Description</label>
+      <textarea id="edit-desc" maxlength="200" style="width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;font-size:14px;font-family:inherit;outline:none;resize:vertical;min-height:80px;margin-bottom:0"></textarea>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label for="edit-url">Link URL</label>
+      <input type="url" id="edit-url" style="width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;font-size:14px;font-family:inherit;outline:none;margin-bottom:0">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveEdit()">Save changes</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -329,7 +417,9 @@
   let targetMode       = 'all';
   let selectedInsts    = [];
   let allInstitutions  = [];
+  let activeTab        = 'post';
 
+  // ── Auth ──────────────────────────────────────────────────────
   function checkAuth() {
     const val = document.getElementById('passphrase').value;
     if (val === ADMIN_PASS) {
@@ -343,16 +433,28 @@
     }
   }
 
+  // ── Tabs ──────────────────────────────────────────────────────
+  function switchTab(tab, btn) {
+    activeTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-post').style.display   = tab === 'post'   ? 'block' : 'none';
+    document.getElementById('tab-manage').style.display = tab === 'manage' ? 'block' : 'none';
+    if (tab === 'manage') loadPosts();
+  }
+
+  // ── Load institutions ─────────────────────────────────────────
   async function loadInstitutions() {
     initDatePicker();
     const { data } = await db
       .from('institutions')
       .select('id, name, status')
-     .eq('status', 'Client')
+      .eq('status', 'Client')
       .order('name');
     allInstitutions = data || [];
   }
 
+  // ── Date picker ───────────────────────────────────────────────
   function initDatePicker() {
     const now  = new Date();
     const dd   = String(now.getDate()).padStart(2, '0');
@@ -361,12 +463,14 @@
     document.getElementById('publish-date').value = dd + '/' + mm + '/' + yyyy;
   }
 
+  // ── Category ──────────────────────────────────────────────────
   function selectCategory(cat, el) {
     selectedCategory = cat;
     document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
   }
 
+  // ── Target ────────────────────────────────────────────────────
   function setTarget(mode, btn) {
     targetMode = mode;
     document.querySelectorAll('.target-btn').forEach(b => b.classList.remove('active'));
@@ -375,6 +479,7 @@
       mode === 'select' ? 'block' : 'none';
   }
 
+  // ── Institution search ────────────────────────────────────────
   function searchInstitutions(q) {
     const results  = document.getElementById('search-results');
     const filtered = allInstitutions.filter(i =>
@@ -429,6 +534,15 @@
       document.getElementById('desc').value.length;
   }
 
+  // ── Generate UUID ─────────────────────────────────────────────
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  // ── Submit post ───────────────────────────────────────────────
   async function submitPost() {
     const desc    = document.getElementById('desc').value.trim();
     const url     = document.getElementById('url').value.trim();
@@ -458,6 +572,7 @@
     btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Posting…';
     hideAlerts();
 
+    const postId      = generateUUID();
     const icon        = selectedCategory === 'kb' ? 'ti-bulb' : 'ti-users';
     const actionLabel = selectedCategory === 'kb' ? 'Read article' : 'Join discussion';
     const prefix      = selectedCategory === 'kb'
@@ -484,6 +599,7 @@
       severity:     null,
       icon,
       publish_at:   publishAt,
+      post_id:      postId,
     }));
 
     const { error } = await db.from('notification_events').insert(rows);
@@ -495,7 +611,7 @@
       const scheduled = new Date(publishAt) > new Date();
       showSuccess(scheduled
         ? 'Scheduled for ' + new Date(publishAt).toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'}) + ' — ' + count + ' institution' + (count !== 1 ? 's' : '') + '.'
-        : 'Update posted to ' + count + ' institution' + (count !== 1 ? 's' : '') + '.'
+        : 'Posted to ' + count + ' institution' + (count !== 1 ? 's' : '') + '.'
       );
       document.getElementById('desc').value = '';
       document.getElementById('url').value  = '';
@@ -507,6 +623,133 @@
     resetBtn();
   }
 
+  // ── Load posts (manage tab) ───────────────────────────────────
+  async function loadPosts() {
+    const list = document.getElementById('post-list');
+    list.innerHTML = '<div class="post-empty">Loading…</div>';
+
+    // Get distinct post_ids with one representative row each
+    const { data, error } = await db
+      .from('notification_events')
+      .select('post_id, title, action_url, icon, publish_at, created_at')
+      .eq('event_type', 'information')
+      .not('post_id', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (error || !data || !data.length) {
+      list.innerHTML = '<div class="post-empty">No information posts found.</div>';
+      return;
+    }
+
+    // Deduplicate by post_id — keep first occurrence
+    const seen = new Set();
+    const posts = data.filter(r => {
+      if (seen.has(r.post_id)) return false;
+      seen.add(r.post_id);
+      return true;
+    });
+
+    // Count institutions per post
+    const counts = {};
+    data.forEach(r => {
+      counts[r.post_id] = (counts[r.post_id] || 0) + 1;
+    });
+
+    list.innerHTML = posts.map(p => {
+      const isCop  = p.icon === 'ti-users';
+      const date   = new Date(p.publish_at || p.created_at);
+      const future = date > new Date();
+      const dateStr = date.toLocaleDateString('en-AU', {day:'numeric', month:'short', year:'numeric'});
+      const count  = counts[p.post_id] || 1;
+      const desc   = p.title.replace('New resource posted in the Knowledge Base — ', '')
+                            .replace('New community of practice discussion — ', '');
+      return `<div class="post-item">
+        <div class="post-icon ${isCop ? 'cop' : ''}">
+          <i class="ti ${p.icon || 'ti-bulb'}"></i>
+        </div>
+        <div class="post-body">
+          <div class="post-title">${desc}</div>
+          <div class="post-meta">
+            ${isCop ? 'Community of Practice' : 'Knowledge Base'} &middot;
+            ${future ? 'Scheduled: ' : ''}${dateStr} &middot;
+            ${count} institution${count !== 1 ? 's' : ''}
+          </div>
+          <div class="post-actions">
+            <button class="btn-sm btn-edit" onclick="openEdit('${p.post_id}','${desc.replace(/'/g,"\\'")}','${(p.action_url||'').replace(/'/g,"\\'")}')">
+              <i class="ti ti-edit"></i> Edit
+            </button>
+            <button class="btn-sm btn-danger" onclick="deletePost('${p.post_id}')">
+              <i class="ti ti-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Delete post ───────────────────────────────────────────────
+  async function deletePost(postId) {
+    if (!confirm('Delete this post from all institution feeds?')) return;
+    const { error } = await db
+      .from('notification_events')
+      .delete()
+      .eq('post_id', postId);
+    if (error) {
+      showManageError('Delete failed: ' + error.message);
+    } else {
+      showManageSuccess('Post deleted from all feeds.');
+      loadPosts();
+    }
+  }
+
+  // ── Edit post ─────────────────────────────────────────────────
+  function openEdit(postId, desc, url) {
+    document.getElementById('edit-post-id').value  = postId;
+    document.getElementById('edit-desc').value     = desc;
+    document.getElementById('edit-url').value      = url;
+    document.getElementById('edit-modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('edit-modal').classList.remove('open');
+  }
+
+  async function saveEdit() {
+    const postId = document.getElementById('edit-post-id').value;
+    const desc   = document.getElementById('edit-desc').value.trim();
+    const url    = document.getElementById('edit-url').value.trim();
+    if (!desc || !url) return;
+
+    // Rebuild title — we need to know the category, get it from existing row
+    const { data: existing } = await db
+      .from('notification_events')
+      .select('icon, action_label')
+      .eq('post_id', postId)
+      .limit(1);
+
+    const isCop   = existing?.[0]?.icon === 'ti-users';
+    const prefix  = isCop
+      ? 'New community of practice discussion'
+      : 'New resource posted in the Knowledge Base';
+    const title   = prefix + ' — ' + desc;
+    const actionLabel = isCop ? 'Join discussion' : 'Read article';
+
+    const { error } = await db
+      .from('notification_events')
+      .update({ title, action_url: url, action_label: actionLabel })
+      .eq('post_id', postId);
+
+    if (error) {
+      showManageError('Save failed: ' + error.message);
+    } else {
+      closeModal();
+      showManageSuccess('Post updated across all feeds.');
+      loadPosts();
+    }
+  }
+
+  // ── Alerts ────────────────────────────────────────────────────
   function resetBtn() {
     const btn = document.getElementById('submit-btn');
     btn.disabled  = false;
@@ -526,6 +769,17 @@
   function hideAlerts() {
     document.getElementById('success-msg').classList.remove('show');
     document.getElementById('error-msg').classList.remove('show');
+  }
+
+  function showManageSuccess(msg) {
+    document.getElementById('manage-success-text').textContent = msg;
+    document.getElementById('manage-success').classList.add('show');
+    setTimeout(() => document.getElementById('manage-success').classList.remove('show'), 3000);
+  }
+
+  function showManageError(msg) {
+    document.getElementById('manage-error-text').textContent = msg;
+    document.getElementById('manage-error').classList.add('show');
   }
 </script>
 </body>
