@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgentBee Admin — Post Information Update</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-  <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="config.js"></script>
 
@@ -367,9 +365,9 @@
   <!-- Publish date -->
   <div style="margin-bottom:16px">
     <label style="display:block;font-size:12px;font-weight:500;color:#5f5e5a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em">Publish date</label>
-    <input type="text" id="publish-date" placeholder="Select a date" readonly
-      style="display:block;width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;font-size:14px;font-family:inherit;color:#1a1a18;background:#ffffff;outline:none;box-sizing:border-box;cursor:pointer">
-    <p style="font-size:12px;color:#888780;margin-top:6px">Defaults to today. Choose a future date to schedule, or a past date to backdate.</p>
+    <input type="text" id="publish-date" placeholder="DD/MM/YYYY"
+      style="display:block;width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;font-size:14px;font-family:inherit;color:#1a1a18;background:#ffffff;outline:none;box-sizing:border-box">
+    <p style="font-size:12px;color:#888780;margin-top:6px">Enter a date to schedule or backdate. Leave blank to publish immediately.</p>
   </div>
 
   <hr class="divider">
@@ -513,37 +511,12 @@
 
   // ── Submit ────────────────────────────────────────────────────
   // ── Set today as default date on load ────────────────────────
-  let picker = null;
-
   function initDatePicker() {
-    // Set today's date as text immediately — picker attaches on first click
-    const now  = new Date();
-    const dd   = String(now.getDate()).padStart(2,'0');
-    const mm   = String(now.getMonth()+1).padStart(2,'0');
+    const now = new Date();
+    const dd  = String(now.getDate()).padStart(2,'0');
+    const mm  = String(now.getMonth()+1).padStart(2,'0');
     const yyyy = now.getFullYear();
-    const field = document.getElementById('publish-date');
-    field.value = `${dd}/${mm}/${yyyy}`;
-
-    // Attach Pikaday lazily on first focus
-    field.addEventListener('focus', function attachPicker() {
-      field.removeEventListener('focus', attachPicker);
-      picker = new Pikaday({
-        field: field,
-        defaultDate: new Date(),
-        setDefaultDate: true,
-        toString(date) {
-          const d  = String(date.getDate()).padStart(2,'0');
-          const m  = String(date.getMonth()+1).padStart(2,'0');
-          const y  = date.getFullYear();
-          return `${d}/${m}/${y}`;
-        },
-        parse(str) {
-          const p = str.split('/');
-          return new Date(`${p[2]}-${p[1]}-${p[0]}`);
-        },
-      });
-      picker.show();
-    });
+    document.getElementById("publish-date").value = `${dd}/${mm}/${yyyy}`;
   }
 
   // ── Submit ────────────────────────────────────────────────────
