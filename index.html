@@ -93,22 +93,19 @@
       letter-spacing: 0.04em;
     }
 
-    input:not([type=date]), select, textarea {
-      input[type=date] {
-  width: 100%;
-  padding: 10px 12px;
-  border: 0.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  color: var(--text);
-  background: var(--bg-card);
-  outline: none;
-  margin-bottom: 16px;
-  display: block;
-  -webkit-appearance: none;
-  appearance: none;
-}
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg-card);
+      outline: none;
+      transition: border-color 0.15s;
+      margin-bottom: 16px;
+    }
     input:focus, select:focus, textarea:focus {
       border-color: var(--border-focus);
     }
@@ -366,11 +363,12 @@
   </div>
 
   <!-- Publish date -->
-  <div style="margin-bottom:4px">
-    <label for="publish-date" style="display:block;font-size:12px;font-weight:500;color:var(--text-mid);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em">Publish date</label>
-    <input type="date" id="publish-date" style="width:100%;padding:10px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;color:var(--text);background:var(--bg-card);outline:none;margin-bottom:6px;display:block">
+  <div style="margin-bottom:16px">
+    <label style="display:block;font-size:12px;font-weight:500;color:#5f5e5a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em">Publish date</label>
+    <input type="text" id="publish-date" placeholder="DD/MM/YYYY"
+      style="display:block;width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;font-size:14px;font-family:inherit;color:#1a1a18;background:#ffffff;outline:none;box-sizing:border-box">
+    <p style="font-size:12px;color:#888780;margin-top:6px">Enter a date to schedule or backdate. Leave blank to publish immediately.</p>
   </div>
-  <p style="font-size:12px;color:var(--text-light);margin-bottom:16px">Leave as today to publish immediately. Choose a future date to schedule, or a past date to backdate.</p>
 
   <hr class="divider">
 
@@ -514,21 +512,29 @@
   // ── Submit ────────────────────────────────────────────────────
   // ── Set today as default date on load ────────────────────────
   function initDatePicker() {
-    const today = new Date().toISOString().split("T")[0];
-    document.getElementById("publish-date").value = today;
+    const now = new Date();
+    const dd  = String(now.getDate()).padStart(2,'0');
+    const mm  = String(now.getMonth()+1).padStart(2,'0');
+    const yyyy = now.getFullYear();
+    document.getElementById("publish-date").value = `${dd}/${mm}/${yyyy}`;
   }
 
   // ── Submit ────────────────────────────────────────────────────
   async function submitPost() {
     const desc      = document.getElementById('desc').value.trim();
     const url       = document.getElementById('url').value.trim();
-    const dateVal   = document.getElementById('publish-date').value;
+    const dateVal   = document.getElementById('publish-date').value.trim();
 
-    // Build publish_at: use chosen date at noon local time to avoid timezone edge cases
+    // Parse DD/MM/YYYY text input
     let publishAt;
     if (dateVal) {
-      const d = new Date(dateVal + 'T12:00:00');
-      publishAt = d.toISOString();
+      const parts = dateVal.split('/');
+      if (parts.length === 3) {
+        const d = new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}T12:00:00`);
+        publishAt = isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+      } else {
+        publishAt = new Date().toISOString();
+      }
     } else {
       publishAt = new Date().toISOString();
     }
