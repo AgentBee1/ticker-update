@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgentBee Admin — Post Information Update</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-  <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="config.js"></script>
 
@@ -68,22 +66,10 @@
     .logo-text { font-size: 15px; font-weight: 600; color: var(--text); }
     .logo-sub  { font-size: 12px; color: var(--text-light); }
 
-    h1 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .subtitle {
-      font-size: 13px;
-      color: var(--text-mid);
-      margin-bottom: 24px;
-    }
+    h1 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; color: var(--text-mid); margin-bottom: 24px; }
 
-    .divider {
-      border: none;
-      border-top: 0.5px solid var(--border);
-      margin: 24px 0;
-    }
+    .divider { border: none; border-top: 0.5px solid var(--border); margin: 24px 0; }
 
     label {
       display: block;
@@ -108,179 +94,117 @@
       transition: border-color 0.15s;
       margin-bottom: 16px;
     }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--border-focus);
-    }
+    input:focus, select:focus, textarea:focus { border-color: var(--border-focus); }
     textarea { resize: vertical; min-height: 80px; }
 
     .field { margin-bottom: 4px; }
 
-    .radio-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
+    .radio-group { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
     .radio-option {
-      flex: 1;
-      min-width: 140px;
+      flex: 1; min-width: 140px;
       border: 0.5px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      cursor: pointer;
-      transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      border-radius: 8px; padding: 10px 14px;
+      cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; gap: 10px;
     }
     .radio-option:hover { border-color: var(--border-focus); }
-    .radio-option.selected {
-      border-color: var(--border-focus);
-      background: #f0f5fc;
-    }
+    .radio-option.selected { border-color: var(--border-focus); background: #f0f5fc; }
     .radio-option input[type=radio] { display: none; }
     .radio-icon {
-      width: 28px; height: 28px;
-      border-radius: 6px;
+      width: 28px; height: 28px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
+      font-size: 14px; flex-shrink: 0;
     }
-    .radio-icon.kb   { background: #EEEDFE; color: #3C3489; }
-    .radio-icon.cop  { background: #E6F1FB; color: #0C447C; }
+    .radio-icon.kb  { background: #EEEDFE; color: #3C3489; }
+    .radio-icon.cop { background: #E6F1FB; color: #0C447C; }
     .radio-label { font-size: 13px; font-weight: 500; }
     .radio-sub   { font-size: 11px; color: var(--text-light); }
 
-    .target-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
+    .target-group { display: flex; gap: 10px; margin-bottom: 16px; }
     .target-btn {
-      flex: 1;
-      padding: 8px;
-      border: 0.5px solid var(--border);
-      border-radius: 8px;
-      background: transparent;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-mid);
-      cursor: pointer;
-      transition: all 0.15s;
+      flex: 1; padding: 8px;
+      border: 0.5px solid var(--border); border-radius: 8px;
+      background: transparent; font-size: 13px; font-weight: 500;
+      color: var(--text-mid); cursor: pointer; transition: all 0.15s;
     }
-    .target-btn.active {
-      border-color: var(--border-focus);
-      background: #f0f5fc;
-      color: var(--accent);
-    }
+    .target-btn.active { border-color: var(--border-focus); background: #f0f5fc; color: var(--accent); }
 
-    /* Institution search */
     .search-wrap { position: relative; margin-bottom: 16px; }
     .search-wrap i {
-      position: absolute;
-      left: 12px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-light);
-      font-size: 15px;
-      pointer-events: none;
+      position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%); color: var(--text-light);
+      font-size: 15px; pointer-events: none;
     }
     .search-wrap input { padding-left: 36px; margin-bottom: 0; }
     .search-results {
-      border: 0.5px solid var(--border);
-      border-radius: 8px;
-      margin-top: 4px;
-      max-height: 180px;
-      overflow-y: auto;
-      display: none;
+      border: 0.5px solid var(--border); border-radius: 8px;
+      margin-top: 4px; max-height: 180px; overflow-y: auto; display: none;
     }
     .search-results.open { display: block; }
     .search-result-item {
-      padding: 8px 12px;
-      font-size: 13px;
-      cursor: pointer;
-      border-bottom: 0.5px solid var(--border);
-      transition: background 0.1s;
+      padding: 8px 12px; font-size: 13px; cursor: pointer;
+      border-bottom: 0.5px solid var(--border); transition: background 0.1s;
     }
     .search-result-item:last-child { border-bottom: none; }
     .search-result-item:hover { background: var(--bg); }
-    .search-result-item.selected { background: #f0f5fc; font-weight: 500; }
 
-    .selected-institutions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 16px;
-      min-height: 0;
-    }
+    .selected-institutions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
     .inst-chip {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #f0f5fc;
-      border: 0.5px solid #c5d8f0;
-      border-radius: 20px;
-      padding: 3px 10px;
-      font-size: 12px;
-      color: var(--accent);
+      display: flex; align-items: center; gap: 6px;
+      background: #f0f5fc; border: 0.5px solid #c5d8f0;
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 12px; color: var(--accent);
     }
     .inst-chip button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text-light);
-      padding: 0;
-      font-size: 13px;
-      line-height: 1;
-      margin-bottom: 0;
-      width: auto;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-light); padding: 0; font-size: 13px;
+      line-height: 1; margin-bottom: 0; width: auto;
     }
     .inst-chip button:hover { color: var(--error-text); }
 
     .btn {
-      width: 100%;
-      padding: 12px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
+      width: 100%; padding: 12px; background: var(--accent);
+      color: #fff; border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 500; cursor: pointer;
       transition: background 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
     .btn:hover { background: var(--accent-hover); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .alert {
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      margin-bottom: 16px;
-      display: none;
-      align-items: flex-start;
-      gap: 8px;
+      padding: 12px 14px; border-radius: 8px; font-size: 13px;
+      margin-bottom: 16px; display: none; align-items: flex-start; gap: 8px;
     }
     .alert.show { display: flex; }
     .alert.success { background: var(--success-bg); color: var(--success-text); }
     .alert.error   { background: var(--error-bg);   color: var(--error-text);   }
 
-    /* Auth screen */
     #auth-screen { }
     #main-screen { display: none; }
 
-    .hint { font-size: 12px; color: var(--text-light); margin-top: -12px; margin-bottom: 16px; }
-
     .char-count { font-size: 11px; color: var(--text-light); text-align: right; margin-top: -14px; margin-bottom: 16px; }
-    #publish-date { display: block !important; width: 100% !important; cursor: pointer; }
+
+    .date-field { margin-bottom: 16px; }
+    .date-field label {
+      display: block; font-size: 12px; font-weight: 500;
+      color: var(--text-mid); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .date-field input {
+      width: 100%; padding: 10px 12px;
+      border: 0.5px solid var(--border); border-radius: 8px;
+      font-size: 14px; font-family: inherit; color: var(--text);
+      background: var(--bg-card); outline: none;
+      margin-bottom: 6px; display: block;
+    }
+    .date-field input:focus { border-color: var(--border-focus); }
+    .date-field p { font-size: 12px; color: var(--text-light); }
   </style>
 </head>
 <body>
 
-<!-- ── Auth screen ── -->
+<!-- Auth screen -->
 <div class="card" id="auth-screen">
   <div class="logo">
     <div class="logo-icon"><i class="ti ti-shield-lock"></i></div>
@@ -289,27 +213,23 @@
       <div class="logo-sub">Information updates</div>
     </div>
   </div>
-
   <h1>Sign in</h1>
   <p class="subtitle">Enter your admin passphrase to continue.</p>
-
   <div class="alert error" id="auth-error">
     <i class="ti ti-alert-circle"></i>
     Incorrect passphrase. Please try again.
   </div>
-
   <div class="field">
     <label for="passphrase">Passphrase</label>
     <input type="password" id="passphrase" placeholder="Enter passphrase"
       onkeydown="if(event.key==='Enter')checkAuth()">
   </div>
-
   <button class="btn" onclick="checkAuth()">
     <i class="ti ti-lock-open"></i> Continue
   </button>
 </div>
 
-<!-- ── Main screen ── -->
+<!-- Main screen -->
 <div class="card" id="main-screen">
   <div class="logo">
     <div class="logo-icon"><i class="ti ti-bulb"></i></div>
@@ -329,9 +249,7 @@
   </div>
 
   <!-- Category -->
-  <div class="field">
-    <label>Category</label>
-  </div>
+  <div class="field"><label>Category</label></div>
   <div class="radio-group">
     <label class="radio-option selected" id="opt-kb" onclick="selectCategory('kb', this)">
       <input type="radio" name="category" value="kb" checked>
@@ -365,20 +283,17 @@
     <input type="url" id="url" placeholder="https://app.agentbee.net/...">
   </div>
 
-  <!-- Publish date -->
-  <div style="margin-bottom:16px">
-    <label style="display:block;font-size:12px;font-weight:500;color:#5f5e5a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em">Publish date</label>
-    <input type="text" id="publish-date" placeholder="Select a date" readonly
-      style="display:block;width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;font-size:14px;font-family:inherit;color:#1a1a18;background:#ffffff;outline:none;box-sizing:border-box;cursor:pointer">
-    <p style="font-size:12px;color:#888780;margin-top:6px">Defaults to today. Choose a future date to schedule, or a past date to backdate.</p>
+  <!-- Publish date — isolated CSS class, no global input rule interference -->
+  <div class="date-field">
+    <label for="publish-date">Publish date</label>
+    <input type="text" id="publish-date" placeholder="DD/MM/YYYY">
+    <p>Leave as today to publish immediately. Choose a future date to schedule, or a past date to backdate.</p>
   </div>
 
   <hr class="divider">
 
   <!-- Target -->
-  <div class="field">
-    <label>Send to</label>
-  </div>
+  <div class="field"><label>Send to</label></div>
   <div class="target-group">
     <button class="target-btn active" id="btn-all" onclick="setTarget('all', this)">
       All client institutions
@@ -388,7 +303,7 @@
     </button>
   </div>
 
-  <!-- Institution search (shown when target = select) -->
+  <!-- Institution search -->
   <div id="institution-picker" style="display:none">
     <div class="search-wrap">
       <i class="ti ti-search"></i>
@@ -412,10 +327,9 @@
 
   let selectedCategory = 'kb';
   let targetMode       = 'all';
-  let selectedInsts    = []; // [{id, name}]
+  let selectedInsts    = [];
   let allInstitutions  = [];
 
-  // ── Auth ──────────────────────────────────────────────────────
   function checkAuth() {
     const val = document.getElementById('passphrase').value;
     if (val === ADMIN_PASS) {
@@ -429,7 +343,6 @@
     }
   }
 
-  // ── Load institutions ─────────────────────────────────────────
   async function loadInstitutions() {
     initDatePicker();
     const { data } = await db
@@ -440,14 +353,20 @@
     allInstitutions = data || [];
   }
 
-  // ── Category ──────────────────────────────────────────────────
+  function initDatePicker() {
+    const now  = new Date();
+    const dd   = String(now.getDate()).padStart(2, '0');
+    const mm   = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
+    document.getElementById('publish-date').value = dd + '/' + mm + '/' + yyyy;
+  }
+
   function selectCategory(cat, el) {
     selectedCategory = cat;
     document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
   }
 
-  // ── Target ────────────────────────────────────────────────────
   function setTarget(mode, btn) {
     targetMode = mode;
     document.querySelectorAll('.target-btn').forEach(b => b.classList.remove('active'));
@@ -456,16 +375,15 @@
       mode === 'select' ? 'block' : 'none';
   }
 
-  // ── Institution search ────────────────────────────────────────
   function searchInstitutions(q) {
-    const results = document.getElementById('search-results');
+    const results  = document.getElementById('search-results');
     const filtered = allInstitutions.filter(i =>
       i.name.toLowerCase().includes(q.toLowerCase()) &&
       !selectedInsts.find(s => s.id === i.id)
     );
     if (!filtered.length || !q) { results.classList.remove('open'); return; }
     results.innerHTML = filtered.slice(0, 8).map(i =>
-      `<div class="search-result-item" onmousedown="addInstitution('${i.id}','${i.name.replace(/'/g,"\\'")}')">
+      `<div class="search-result-item" onmousedown="addInstitution('${i.id}','${i.name.replace(/'/g, "\\'")}')">
         ${i.name}
       </div>`
     ).join('');
@@ -495,70 +413,32 @@
   }
 
   function renderChips() {
-    const container = document.getElementById('selected-institutions');
-    container.innerHTML = selectedInsts.map(i =>
-      `<div class="inst-chip">
-        ${i.name}
-        <button onclick="removeInstitution('${i.id}')" title="Remove">
-          <i class="ti ti-x"></i>
-        </button>
-      </div>`
-    ).join('');
+    document.getElementById('selected-institutions').innerHTML =
+      selectedInsts.map(i =>
+        `<div class="inst-chip">
+          ${i.name}
+          <button onclick="removeInstitution('${i.id}')" title="Remove">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>`
+      ).join('');
   }
 
-  // ── Char count ────────────────────────────────────────────────
   function updateCharCount() {
-    const len = document.getElementById('desc').value.length;
-    document.getElementById('char-count').textContent = len;
+    document.getElementById('char-count').textContent =
+      document.getElementById('desc').value.length;
   }
 
-  // ── Submit ────────────────────────────────────────────────────
-  // ── Set today as default date on load ────────────────────────
-  let picker = null;
-
-  function initDatePicker() {
-    // Set today's date as text immediately — picker attaches on first click
-    const now  = new Date();
-    const dd   = String(now.getDate()).padStart(2,'0');
-    const mm   = String(now.getMonth()+1).padStart(2,'0');
-    const yyyy = now.getFullYear();
-    const field = document.getElementById('publish-date');
-    field.value = `${dd}/${mm}/${yyyy}`;
-
-    // Attach Pikaday lazily on first focus
-    field.addEventListener('focus', function attachPicker() {
-      field.removeEventListener('focus', attachPicker);
-      picker = new Pikaday({
-        field: field,
-        defaultDate: new Date(),
-        setDefaultDate: true,
-        toString(date) {
-          const d  = String(date.getDate()).padStart(2,'0');
-          const m  = String(date.getMonth()+1).padStart(2,'0');
-          const y  = date.getFullYear();
-          return `${d}/${m}/${y}`;
-        },
-        parse(str) {
-          const p = str.split('/');
-          return new Date(`${p[2]}-${p[1]}-${p[0]}`);
-        },
-      });
-      picker.show();
-    });
-  }
-
-  // ── Submit ────────────────────────────────────────────────────
   async function submitPost() {
-    const desc      = document.getElementById('desc').value.trim();
-    const url       = document.getElementById('url').value.trim();
-    const dateVal   = document.getElementById('publish-date').value.trim();
+    const desc    = document.getElementById('desc').value.trim();
+    const url     = document.getElementById('url').value.trim();
+    const dateVal = document.getElementById('publish-date').value.trim();
 
-    // Parse DD/MM/YYYY text input
     let publishAt;
     if (dateVal) {
       const parts = dateVal.split('/');
       if (parts.length === 3) {
-        const d = new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}T12:00:00`);
+        const d = new Date(parts[2] + '-' + parts[1].padStart(2,'0') + '-' + parts[0].padStart(2,'0') + 'T12:00:00');
         publishAt = isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
       } else {
         publishAt = new Date().toISOString();
@@ -574,9 +454,8 @@
     }
 
     const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
+    btn.disabled  = true;
     btn.innerHTML = '<i class="ti ti-loader ti-spin"></i> Posting…';
-
     hideAlerts();
 
     const icon        = selectedCategory === 'kb' ? 'ti-bulb' : 'ti-users';
@@ -584,23 +463,17 @@
     const prefix      = selectedCategory === 'kb'
       ? 'New resource posted in the Knowledge Base'
       : 'New community of practice discussion';
-    const title       = prefix + ' — ' + desc;
+    const title = prefix + ' — ' + desc;
 
     let targets = [];
     if (targetMode === 'all') {
-      const { data } = await db
-        .from('institutions')
-        .select('id')
-        .eq('status', 'client');
+      const { data } = await db.from('institutions').select('id').eq('status', 'client');
       targets = (data || []).map(i => i.id);
     } else {
       targets = selectedInsts.map(i => i.id);
     }
 
-    if (!targets.length) {
-      showError('No client institutions found to notify.');
-      resetBtn(); return;
-    }
+    if (!targets.length) { showError('No client institutions found.'); resetBtn(); return; }
 
     const rows = targets.map(institution_id => ({
       institution_id,
@@ -618,12 +491,12 @@
     if (error) {
       showError('Database error: ' + error.message);
     } else {
-      const count = targets.length;
+      const count     = targets.length;
       const scheduled = new Date(publishAt) > new Date();
-      const msg = scheduled
-        ? `Scheduled for ${new Date(publishAt).toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'})} — ${count} institution${count !== 1 ? 's' : ''}.`
-        : `Update posted to ${count} institution${count !== 1 ? 's' : ''}.`;
-      showSuccess(msg);
+      showSuccess(scheduled
+        ? 'Scheduled for ' + new Date(publishAt).toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'}) + ' — ' + count + ' institution' + (count !== 1 ? 's' : '') + '.'
+        : 'Update posted to ' + count + ' institution' + (count !== 1 ? 's' : '') + '.'
+      );
       document.getElementById('desc').value = '';
       document.getElementById('url').value  = '';
       initDatePicker();
@@ -631,13 +504,12 @@
       selectedInsts = [];
       renderChips();
     }
-
     resetBtn();
   }
 
   function resetBtn() {
     const btn = document.getElementById('submit-btn');
-    btn.disabled = false;
+    btn.disabled  = false;
     btn.innerHTML = '<i class="ti ti-send"></i> Post update';
   }
 
