@@ -348,7 +348,7 @@
     const { data } = await db
       .from('institutions')
       .select('id, name, status')
-      .eq('status', 'client')
+     .eq('status', 'Client')
       .order('name');
     allInstitutions = data || [];
   }
@@ -467,7 +467,7 @@
 
     let targets = [];
     if (targetMode === 'all') {
-      const { data } = await db.from('institutions').select('id').eq('status', 'client');
+      const { data } = await db.from('institutions').select('id').eq('status', 'Client');
       targets = (data || []).map(i => i.id);
     } else {
       targets = selectedInsts.map(i => i.id);
