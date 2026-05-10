@@ -93,19 +93,22 @@
       letter-spacing: 0.04em;
     }
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 0.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--text);
-      background: var(--bg-card);
-      outline: none;
-      transition: border-color 0.15s;
-      margin-bottom: 16px;
-    }
+    input:not([type=date]), select, textarea {
+      input[type=date] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg-card);
+  outline: none;
+  margin-bottom: 16px;
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+}
     input:focus, select:focus, textarea:focus {
       border-color: var(--border-focus);
     }
