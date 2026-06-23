@@ -119,37 +119,104 @@
     }
     .target-btn.active { border-color: var(--border-focus); background: #f0f5fc; color: var(--accent); }
 
-    .search-wrap { position: relative; margin-bottom: 16px; }
-    .search-wrap i {
-      position: absolute; left: 12px; top: 50%;
-      transform: translateY(-50%); color: var(--text-light);
-      font-size: 15px; pointer-events: none;
+    /* Institution checkbox list */
+    .inst-list-panel {
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
     }
-    .search-wrap input { padding-left: 36px; margin-bottom: 0; }
-    .search-results {
-      border: 0.5px solid var(--border); border-radius: 8px;
-      margin-top: 4px; max-height: 180px; overflow-y: auto; display: none;
+    .inst-list-panel.confirmed {
+      border-color: var(--border-focus);
+      background: #f0f5fc;
     }
-    .search-results.open { display: block; }
-    .search-result-item {
-      padding: 8px 12px; font-size: 13px; cursor: pointer;
-      border-bottom: 0.5px solid var(--border); transition: background 0.1s;
+    .inst-list-items {
+      max-height: 260px;
+      overflow-y: auto;
     }
-    .search-result-item:last-child { border-bottom: none; }
-    .search-result-item:hover { background: var(--bg); }
+    .inst-list-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 0.5px solid var(--border);
+      cursor: pointer;
+      transition: background 0.1s;
+      user-select: none;
+    }
+    .inst-list-item:last-child { border-bottom: none; }
+    .inst-list-item:hover { background: var(--bg); }
+    .inst-list-item.checked { background: #f0f5fc; }
+    .inst-list-item input[type=checkbox] {
+      width: 15px; height: 15px; flex-shrink: 0;
+      accent-color: var(--accent);
+      margin-bottom: 0; padding: 0; border: none;
+      cursor: pointer;
+    }
+    .inst-list-name {
+      font-size: 13px;
+      color: var(--text);
+      flex: 1;
+    }
+    .inst-list-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-top: 0.5px solid var(--border);
+      background: var(--bg);
+      gap: 10px;
+    }
+    .inst-list-summary {
+      font-size: 12px;
+      color: var(--text-mid);
+    }
+    .inst-list-summary strong {
+      color: var(--accent);
+    }
+    .btn-confirm {
+      padding: 7px 16px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-confirm:hover { background: var(--accent-hover); }
+    .btn-change {
+      padding: 7px 16px;
+      background: transparent;
+      color: var(--accent);
+      border: 0.5px solid var(--border-focus);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-change:hover { background: #f0f5fc; }
 
-    .selected-institutions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-    .inst-chip {
-      display: flex; align-items: center; gap: 6px;
-      background: #f0f5fc; border: 0.5px solid #c5d8f0;
-      border-radius: 20px; padding: 3px 10px; font-size: 12px; color: var(--accent);
+    /* Confirmed summary bar */
+    .confirmed-summary {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--accent);
     }
-    .inst-chip button {
-      background: none; border: none; cursor: pointer;
-      color: var(--text-light); padding: 0; font-size: 13px;
-      line-height: 1; margin-bottom: 0; width: auto;
-    }
-    .inst-chip button:hover { color: var(--error-text); }
+    .confirmed-summary.show { display: flex; }
 
     .btn {
       width: 100%; padding: 12px; background: var(--accent);
@@ -356,16 +423,33 @@
       </button>
     </div>
 
+    <!-- Institution checkbox picker (shown when 'Select institutions' is active) -->
     <div id="institution-picker" style="display:none">
-      <div class="search-wrap">
-        <i class="ti ti-search"></i>
-        <input type="text" id="inst-search" placeholder="Search institutions…"
-          oninput="searchInstitutions(this.value)"
-          onfocus="showResults()"
-          onblur="setTimeout(hideResults, 200)">
+      <div class="inst-list-panel" id="inst-list-panel">
+        <div class="inst-list-items" id="inst-list-items">
+          <!-- populated by renderInstList() -->
+        </div>
+        <div class="inst-list-footer">
+          <span class="inst-list-summary" id="inst-list-summary">No institutions selected</span>
+          <button class="btn-confirm" onclick="confirmSelection()">
+            <i class="ti ti-check"></i> Confirm selection
+          </button>
+        </div>
       </div>
-      <div class="search-results" id="search-results"></div>
-      <div class="selected-institutions" id="selected-institutions"></div>
+
+      <!-- Confirmed state: collapsed summary + Change button -->
+      <div class="inst-list-panel confirmed" id="inst-confirmed-panel" style="display:none">
+        <div class="confirmed-summary show" id="confirmed-summary">
+          <i class="ti ti-circle-check"></i>
+          <span id="confirmed-summary-text"></span>
+        </div>
+        <div class="inst-list-footer">
+          <span></span>
+          <button class="btn-change" onclick="changeSelection()">
+            <i class="ti ti-edit"></i> Change
+          </button>
+        </div>
+      </div>
     </div>
 
     <button class="btn" id="submit-btn" onclick="submitPost()">
@@ -413,11 +497,13 @@
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-  let selectedCategory = 'kb';
-  let targetMode       = 'all';
-  let selectedInsts    = [];
-  let allInstitutions  = [];
-  let activeTab        = 'post';
+  let selectedCategory  = 'kb';
+  let targetMode        = 'all';
+  let selectedInsts     = [];   // array of {id, name} — the confirmed selection
+  let pendingInsts      = [];   // array of {id, name} — in-progress checkbox state
+  let allInstitutions   = [];
+  let selectionConfirmed = false;
+  let activeTab         = 'post';
 
   // ── Auth ──────────────────────────────────────────────────────
   function checkAuth() {
@@ -452,6 +538,7 @@
       .eq('status', 'Client')
       .order('name');
     allInstitutions = data || [];
+    renderInstList();
   }
 
   // ── Date picker ───────────────────────────────────────────────
@@ -477,56 +564,95 @@
     btn.classList.add('active');
     document.getElementById('institution-picker').style.display =
       mode === 'select' ? 'block' : 'none';
+    if (mode === 'select') {
+      // Show list panel (not confirmed panel) when first opening
+      if (!selectionConfirmed) {
+        showListPanel();
+      } else {
+        showConfirmedPanel();
+      }
+    }
   }
 
-  // ── Institution search ────────────────────────────────────────
-  function searchInstitutions(q) {
-    const results  = document.getElementById('search-results');
-    const filtered = allInstitutions.filter(i =>
-      i.name.toLowerCase().includes(q.toLowerCase()) &&
-      !selectedInsts.find(s => s.id === i.id)
-    );
-    if (!filtered.length || !q) { results.classList.remove('open'); return; }
-    results.innerHTML = filtered.slice(0, 8).map(i =>
-      `<div class="search-result-item" onmousedown="addInstitution('${i.id}','${i.name.replace(/'/g, "\\'")}')">
-        ${i.name}
-      </div>`
-    ).join('');
-    results.classList.add('open');
+  // ── Render checkbox list ──────────────────────────────────────
+  function renderInstList() {
+    const container = document.getElementById('inst-list-items');
+    if (!allInstitutions.length) {
+      container.innerHTML = '<div style="padding:14px;font-size:13px;color:var(--text-light)">No client institutions found.</div>';
+      return;
+    }
+    container.innerHTML = allInstitutions.map(inst => {
+      const checked = pendingInsts.some(i => i.id === inst.id);
+      return `<div class="inst-list-item ${checked ? 'checked' : ''}" id="item-${inst.id}" onclick="toggleInst('${inst.id}', '${inst.name.replace(/'/g, "\\'")}')">
+        <input type="checkbox" id="chk-${inst.id}" ${checked ? 'checked' : ''} onclick="event.stopPropagation(); toggleInst('${inst.id}', '${inst.name.replace(/'/g, "\\'")}')">
+        <span class="inst-list-name">${inst.name}</span>
+      </div>`;
+    }).join('');
+    updateListSummary();
   }
 
-  function showResults() {
-    const q = document.getElementById('inst-search').value;
-    if (q) searchInstitutions(q);
+  function toggleInst(id, name) {
+    const idx = pendingInsts.findIndex(i => i.id === id);
+    if (idx >= 0) {
+      pendingInsts.splice(idx, 1);
+    } else {
+      pendingInsts.push({ id, name });
+    }
+    // Update this row's visual state
+    const item = document.getElementById('item-' + id);
+    const chk  = document.getElementById('chk-' + id);
+    if (item && chk) {
+      chk.checked = pendingInsts.some(i => i.id === id);
+      item.classList.toggle('checked', chk.checked);
+    }
+    updateListSummary();
   }
 
-  function hideResults() {
-    document.getElementById('search-results').classList.remove('open');
+  function updateListSummary() {
+    const n = pendingInsts.length;
+    const el = document.getElementById('inst-list-summary');
+    if (!el) return;
+    if (n === 0) {
+      el.innerHTML = 'No institutions selected';
+    } else {
+      el.innerHTML = `<strong>${n}</strong> institution${n !== 1 ? 's' : ''} selected`;
+    }
   }
 
-  function addInstitution(id, name) {
-    if (selectedInsts.find(i => i.id === id)) return;
-    selectedInsts.push({ id, name });
-    renderChips();
-    document.getElementById('inst-search').value = '';
-    document.getElementById('search-results').classList.remove('open');
+  function confirmSelection() {
+    if (!pendingInsts.length) {
+      // Flash summary text briefly
+      const el = document.getElementById('inst-list-summary');
+      el.style.color = 'var(--error-text)';
+      el.textContent = 'Select at least one institution';
+      setTimeout(() => { el.style.color = ''; updateListSummary(); }, 1800);
+      return;
+    }
+    selectedInsts = [...pendingInsts];
+    selectionConfirmed = true;
+    showConfirmedPanel();
   }
 
-  function removeInstitution(id) {
-    selectedInsts = selectedInsts.filter(i => i.id !== id);
-    renderChips();
+  function changeSelection() {
+    // Re-sync pending to current confirmed selection so checkboxes reflect it
+    pendingInsts = [...selectedInsts];
+    selectionConfirmed = false;
+    renderInstList();
+    showListPanel();
   }
 
-  function renderChips() {
-    document.getElementById('selected-institutions').innerHTML =
-      selectedInsts.map(i =>
-        `<div class="inst-chip">
-          ${i.name}
-          <button onclick="removeInstitution('${i.id}')" title="Remove">
-            <i class="ti ti-x"></i>
-          </button>
-        </div>`
-      ).join('');
+  function showListPanel() {
+    document.getElementById('inst-list-panel').style.display    = 'block';
+    document.getElementById('inst-confirmed-panel').style.display = 'none';
+  }
+
+  function showConfirmedPanel() {
+    document.getElementById('inst-list-panel').style.display    = 'none';
+    document.getElementById('inst-confirmed-panel').style.display = 'block';
+    const names = selectedInsts.map(i => i.name).join(', ');
+    const n = selectedInsts.length;
+    document.getElementById('confirmed-summary-text').textContent =
+      n + ' institution' + (n !== 1 ? 's' : '') + ' selected: ' + names;
   }
 
   function updateCharCount() {
@@ -564,7 +690,7 @@
     if (!desc) { showError('Please enter a description.'); return; }
     if (!url)  { showError('Please enter a link URL.'); return; }
     if (targetMode === 'select' && !selectedInsts.length) {
-      showError('Please select at least one institution.'); return;
+      showError('Please confirm your institution selection.'); return;
     }
 
     const btn = document.getElementById('submit-btn');
@@ -617,8 +743,12 @@
       document.getElementById('url').value  = '';
       initDatePicker();
       updateCharCount();
+      // Reset institution selection
       selectedInsts = [];
-      renderChips();
+      pendingInsts  = [];
+      selectionConfirmed = false;
+      renderInstList();
+      if (targetMode === 'select') showListPanel();
     }
     resetBtn();
   }
@@ -628,7 +758,6 @@
     const list = document.getElementById('post-list');
     list.innerHTML = '<div class="post-empty">Loading…</div>';
 
-    // Get distinct post_ids with one representative row each
     const { data, error } = await db
       .from('notification_events')
       .select('post_id, title, action_url, icon, publish_at, created_at')
@@ -642,7 +771,6 @@
       return;
     }
 
-    // Deduplicate by post_id — keep first occurrence
     const seen = new Set();
     const posts = data.filter(r => {
       if (seen.has(r.post_id)) return false;
@@ -650,11 +778,8 @@
       return true;
     });
 
-    // Count institutions per post
     const counts = {};
-    data.forEach(r => {
-      counts[r.post_id] = (counts[r.post_id] || 0) + 1;
-    });
+    data.forEach(r => { counts[r.post_id] = (counts[r.post_id] || 0) + 1; });
 
     list.innerHTML = posts.map(p => {
       const isCop  = p.icon === 'ti-users';
@@ -721,7 +846,6 @@
     const url    = document.getElementById('edit-url').value.trim();
     if (!desc || !url) return;
 
-    // Rebuild title — we need to know the category, get it from existing row
     const { data: existing } = await db
       .from('notification_events')
       .select('icon, action_label')
